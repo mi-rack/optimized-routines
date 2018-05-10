@@ -38,10 +38,6 @@ endif()
 
 set(armClib_VERSION_MAJOR 1)
 set(armClib_VERSION_MINOR 0)
-set(CMAKE_INSTALL_PREFIX ${CMAKE_BINARY_DIR})
-set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
-set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
 # Parameters to choose between different architectures and library variants.
 # At the moment, we only support AArch64 and Cortex-A57/A53.
@@ -64,20 +60,9 @@ endif ()
 
 # Add subdirectories for the math library and test suite.
 include_directories("${PROJECT_BINARY_DIR}"
-  "${PROJECT_SOURCE_DIR}/test"
   "${PROJECT_SOURCE_DIR}/math/include"
   "${PROJECT_SOURCE_DIR}/math")
 
-add_subdirectory(test)
 add_subdirectory(math)
 
 set(EXTRA_LIBS ${EXTRA_LIBS} math)
-
-include(ExternalProject)
-ExternalProject_Add(rtest
-  PREFIX "${CMAKE_BINARY_DIR}/rtest"
-  SOURCE_DIR "${PROJECT_SOURCE_DIR}/test/rtest"
-  INSTALL_DIR "${CMAKE_BINARY_DIR}/bin"
-  CMAKE_ARGS -DCMAKE_INSTALL_PREFIX=${CMAKE_BINARY_DIR})
-
-add_dependencies(mathtest rtest)

@@ -49,11 +49,10 @@ endif ()
 target_link_libraries(mathlib c)
 target_link_libraries(mathlib_static c)
 
-# Install the shared library to the build directory.
-install(TARGETS mathlib DESTINATION ${CMAKE_BINARY_DIR}/lib)
-install(TARGETS mathlib_static DESTINATION ${CMAKE_BINARY_DIR}/lib)
-configure_file(
-  ${PROJECT_SOURCE_DIR}/math/include/arm_math.h
-  ${PROJECT_BINARY_DIR}/include/arm_math.h
-  COPYONLY
-  )
+install(TARGETS mathlib_static
+        ARCHIVE DESTINATION "lib${LIB_SUFFIX}"
+        LIBRARY DESTINATION "lib${LIB_SUFFIX}")
+
+install(
+    FILES include/arm_math.h
+    DESTINATION include)
